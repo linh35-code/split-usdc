@@ -2,6 +2,8 @@ import { View, Text, Pressable, ActivityIndicator, StyleSheet } from 'react-nati
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { AuthStackParamList } from '../../navigation/types';
 import { useAuth, WALLET_OPTIONS } from '../../context/AuthContext';
+import BackButton from '../../components/BackButton';
+import { colors, radii, spacing, typography } from '../../theme/theme';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'ConnectWallet'>;
 
@@ -10,11 +12,7 @@ export default function ConnectWalletScreen({ navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Pressable onPress={() => navigation.goBack()}>
-          <Text>← Back</Text>
-        </Pressable>
-      </View>
+      <BackButton label="Back" onPress={() => navigation.goBack()} />
 
       <Text style={styles.title}>Kết nối ví</Text>
 
@@ -26,8 +24,8 @@ export default function ConnectWalletScreen({ navigation }: Props) {
             disabled={isConnecting}
             onPress={() => connectWallet(wallet.id)}
           >
-            <Text>{wallet.name}</Text>
-            {isConnecting && <ActivityIndicator />}
+            <Text style={styles.walletName}>{wallet.name}</Text>
+            {isConnecting && <ActivityIndicator color={colors.primary} />}
           </Pressable>
         ))}
       </View>
@@ -38,24 +36,30 @@ export default function ConnectWalletScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    gap: 16,
-  },
-  header: {
-    minHeight: 44,
-    justifyContent: 'center',
+    padding: spacing.md,
+    gap: spacing.md,
+    backgroundColor: colors.background,
   },
   title: {
-    fontWeight: 'bold',
+    ...typography.heading,
+    color: colors.textPrimary,
   },
   list: {
-    gap: 8,
+    gap: spacing.sm,
   },
   walletRow: {
     minHeight: 44,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
+    paddingHorizontal: spacing.md,
+    backgroundColor: colors.surface,
+    borderRadius: radii.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  walletName: {
+    ...typography.body,
+    color: colors.textPrimary,
   },
 });

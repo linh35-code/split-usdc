@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { MainStackParamList } from '../../navigation/types';
 import { useGroups } from '../../context/GroupsContext';
+import BackButton from '../../components/BackButton';
+import TextField from '../../components/TextField';
+import Button from '../../components/Button';
+import { colors, radii, spacing, typography } from '../../theme/theme';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'CreateGroup'>;
 
@@ -22,28 +26,23 @@ export default function CreateGroupScreen({ navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => navigation.goBack()}>
-        <Text>← Tạo nhóm mới</Text>
-      </Pressable>
+      <BackButton label="Tạo nhóm mới" onPress={() => navigation.goBack()} />
 
-      <TextInput
-        style={styles.input}
+      <TextField
         placeholder="Tên nhóm"
         value={name}
+        error={error}
         onChangeText={(text) => {
           setName(text);
           if (error) setError(null);
         }}
       />
-      {error && <Text>{error}</Text>}
 
       <View style={styles.avatarPlaceholder}>
-        <Text>[Ảnh đại diện nhóm]</Text>
+        <Text style={styles.avatarPlaceholderText}>Ảnh đại diện nhóm</Text>
       </View>
 
-      <Pressable style={styles.submitButton} onPress={handleSubmit}>
-        <Text>Tạo & Mời thành viên</Text>
-      </Pressable>
+      <Button title="Tạo & Mời thành viên" onPress={handleSubmit} />
     </View>
   );
 }
@@ -51,22 +50,22 @@ export default function CreateGroupScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    gap: 16,
-  },
-  input: {
-    minHeight: 44,
-    borderWidth: 1,
-    paddingHorizontal: 12,
+    padding: spacing.md,
+    gap: spacing.md,
+    backgroundColor: colors.background,
   },
   avatarPlaceholder: {
     height: 64,
+    borderRadius: radii.md,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderStyle: 'dashed',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  submitButton: {
-    minHeight: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
+  avatarPlaceholderText: {
+    ...typography.caption,
+    color: colors.textSecondary,
   },
 });

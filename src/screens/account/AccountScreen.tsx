@@ -1,23 +1,25 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { MainStackParamList } from '../../navigation/types';
 import { useAuth } from '../../context/AuthContext';
+import BackButton from '../../components/BackButton';
+import Avatar from '../../components/Avatar';
+import Button from '../../components/Button';
+import { colors, spacing, typography } from '../../theme/theme';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'Account'>;
 
 export default function AccountScreen({ navigation }: Props) {
-  const { walletAddress, disconnectWallet } = useAuth();
+  const { walletAddress, balance, disconnectWallet } = useAuth();
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => navigation.goBack()}>
-        <Text>← Back</Text>
-      </Pressable>
+      <BackButton label="Back" onPress={() => navigation.goBack()} />
       <View style={styles.body}>
-        <Text>Ví: {walletAddress}</Text>
-        <Pressable style={styles.button} onPress={disconnectWallet}>
-          <Text>Ngắt kết nối</Text>
-        </Pressable>
+        <Avatar name="Bạn" size={64} />
+        <Text style={styles.walletAddress}>{walletAddress}</Text>
+        <Text style={styles.balance}>{balance.toFixed(2)} USDC</Text>
+        <Button title="Ngắt kết nối" variant="secondary" onPress={disconnectWallet} />
       </View>
     </View>
   );
@@ -26,18 +28,21 @@ export default function AccountScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: spacing.md,
+    backgroundColor: colors.background,
   },
   body: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
+    gap: spacing.md,
   },
-  button: {
-    minHeight: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
+  walletAddress: {
+    ...typography.body,
+    color: colors.textSecondary,
+  },
+  balance: {
+    ...typography.display,
+    color: colors.textPrimary,
   },
 });
