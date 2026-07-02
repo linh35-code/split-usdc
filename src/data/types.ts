@@ -13,6 +13,7 @@ export type Expense = {
   participantIds: string[];
   shares: Record<string, number>;
   paidMemberIds: string[];
+  createdAt: number;
 };
 
 export type Group = {

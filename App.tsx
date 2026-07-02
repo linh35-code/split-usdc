@@ -19,7 +19,8 @@ import PaymentConfirmScreen from './src/screens/payment/PaymentConfirmScreen';
 import PaymentProcessingScreen from './src/screens/payment/PaymentProcessingScreen';
 import PaymentResultScreen from './src/screens/payment/PaymentResultScreen';
 import AccountScreen from './src/screens/account/AccountScreen';
-import ComingSoonScreen, { ComingSoonBody } from './src/screens/common/ComingSoonScreen';
+import ActivityScreen from './src/screens/activity/ActivityScreen';
+import WalletScreen from './src/screens/wallet/WalletScreen';
 import { colors } from './src/theme/theme';
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -45,17 +46,8 @@ function GroupsTabStack() {
       />
       <MainStack.Screen name="PaymentResult" component={PaymentResultScreen} />
       <MainStack.Screen name="Account" component={AccountScreen} />
-      <MainStack.Screen name="ComingSoon" component={ComingSoonScreen} />
     </MainStack.Navigator>
   );
-}
-
-function ActivityComingSoon() {
-  return <ComingSoonBody title="Hoạt động" />;
-}
-
-function WalletComingSoon() {
-  return <ComingSoonBody title="Ví" />;
 }
 
 function MainTabs() {
@@ -68,8 +60,8 @@ function MainTabs() {
       }}
     >
       <Tab.Screen name="Nhóm" component={GroupsTabStack} />
-      <Tab.Screen name="Hoạt động" component={ActivityComingSoon} />
-      <Tab.Screen name="Ví" component={WalletComingSoon} />
+      <Tab.Screen name="Hoạt động" component={ActivityScreen} />
+      <Tab.Screen name="Ví" component={WalletScreen} />
     </Tab.Navigator>
   );
 }

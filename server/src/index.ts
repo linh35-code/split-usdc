@@ -43,6 +43,11 @@ app.get('/wallets/:id/balance', async (req, res) => {
   res.json({ balance: usdc?.amount ?? '0' });
 });
 
+app.get('/wallets/:id/transactions', async (req, res) => {
+  const response = await circleClient.listTransactions({ walletIds: [req.params.id] });
+  res.json(response.data?.transactions ?? []);
+});
+
 app.post('/wallets/:id/transfers', async (req, res) => {
   const { destinationAddress, amount } = req.body;
   const response = await circleClient.createTransaction({

@@ -1,5 +1,8 @@
 import { Group } from './types';
 
+const HOUR = 60 * 60 * 1000;
+const now = Date.now();
+
 export const seedGroups: Group[] = [
   {
     id: 'group-1',
@@ -19,6 +22,7 @@ export const seedGroups: Group[] = [
         participantIds: ['me', 'an', 'binh', 'chi'],
         shares: { me: 30, an: 30, binh: 30, chi: 30 },
         paidMemberIds: ['an'],
+        createdAt: now - 72 * HOUR,
       },
       {
         id: 'exp-2',
@@ -28,6 +32,7 @@ export const seedGroups: Group[] = [
         participantIds: ['me', 'an', 'binh', 'chi'],
         shares: { me: 11.25, an: 11.25, binh: 11.25, chi: 11.25 },
         paidMemberIds: ['me', 'binh', 'chi'],
+        createdAt: now - 48 * HOUR,
       },
       {
         id: 'exp-4',
@@ -37,6 +42,7 @@ export const seedGroups: Group[] = [
         participantIds: ['me', 'an', 'binh', 'chi'],
         shares: { me: 50, an: 50, binh: 50, chi: 50 },
         paidMemberIds: [],
+        createdAt: now - 24 * HOUR,
       },
     ],
   },
@@ -57,6 +63,7 @@ export const seedGroups: Group[] = [
         participantIds: ['me', 'dung', 'trang'],
         shares: { me: 10, dung: 10, trang: 10 },
         paidMemberIds: [],
+        createdAt: now - 12 * HOUR,
       },
     ],
   },

@@ -23,5 +23,4 @@ export type MainStackParamList = {
     txId?: string;
   };
   Account: undefined;
-  ComingSoon: { title: string };
 };

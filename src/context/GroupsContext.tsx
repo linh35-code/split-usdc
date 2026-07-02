@@ -57,6 +57,7 @@ export function GroupsProvider({ children }: { children: ReactNode }) {
     const newExpense: Expense = {
       id: `exp-${Date.now()}`,
       paidMemberIds: [],
+      createdAt: Date.now(),
       ...expense,
     };
     setGroups((prev) =>
