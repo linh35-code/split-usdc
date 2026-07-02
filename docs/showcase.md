@@ -2,7 +2,7 @@
 
 **Short version (for character-limited forms):**
 
-split-usdc — split group bills and settle them instantly in USDC on Arc, no more IOUs. Splitwise only calculates who owes whom; it never moves money, so people still hunt down PayPal/bank details to settle. We fix that: Circle Wallets give seedless onboarding, Circle Paymaster sponsors gas, so USDC is the only balance anyone thinks about. Fully working flow: create groups, split expenses (equal or custom), pay with balance checks, leave-group debt guard.
+split-usdc — split group bills and settle them instantly in USDC on Arc, no more IOUs. Splitwise only calculates who owes whom; it never moves money, so people still hunt down PayPal/bank details to settle. We fix that with Circle Developer-Controlled Wallets on Arc Testnet, where USDC is the native gas token, so it's the only balance anyone thinks about. Fully working flow: create groups, split expenses (equal or custom), pay with real on-chain transfers and balance checks, leave-group debt guard.
 
 Repo: https://github.com/linh35-code/split-usdc
 
@@ -24,8 +24,8 @@ This demand is already visible in the wild — straight from Splitwise's own fee
 
 A group-expense app where the split *is* the payment, built natively on Arc + Circle's stack:
 
-- **Circle Wallets** — embedded, seedless onboarding. Tap "Connect Wallet," no seed phrase, no gas token to manage.
-- **Circle Paymaster** — every payment is gas-sponsored, so USDC is the only balance a user ever thinks about.
+- **Circle Developer-Controlled Wallets** — seedless onboarding, no key management for the user.
+- **USDC as Arc's native gas token** — no separate gas token to hold or manage.
 - **USDC on Arc** — instant, deterministic settlement instead of "I'll Venmo you Friday."
 
 **What's built (fully working end-to-end)**
@@ -37,7 +37,7 @@ A group-expense app where the split *is* the payment, built natively on Arc + Ci
 5. Full payment flow — confirm → processing → success/failure, balance checks before sending, double-submit protection
 6. Leave-group guard — can't exit a group while you still owe money in it
 
-**Stack:** React Native + Expo (TypeScript), React Navigation, Context state. Fully clickable prototype with mocked Circle Wallets/Paymaster calls, architected to swap in real Arc testnet contracts next.
+**Stack:** React Native + Expo (TypeScript), React Navigation, Context state, with a small Node backend on Circle's Developer-Controlled Wallets SDK. Wallet creation, balances, and transfers are real — every payment is an actual USDC transaction on Arc Testnet, checkable on [testnet.arcscan.app](https://testnet.arcscan.app).
 
 **Repo:** https://github.com/linh35-code/split-usdc
 

@@ -16,8 +16,8 @@ Straight from Splitwise's own feedback board:
 
 A group-expense app where the split *is* the payment, built on Arc + Circle's stack:
 
-- **Circle Wallets** — embedded, seedless onboarding
-- **Circle Paymaster** — every payment is gas-sponsored
+- **Circle Developer-Controlled Wallets** — seedless onboarding, no key management for the user
+- **USDC as Arc's native gas token** — no separate gas token to hold or manage
 - **USDC on Arc** — instant, deterministic settlement
 
 ## Features
@@ -31,11 +31,12 @@ A group-expense app where the split *is* the payment, built on Arc + Circle's st
 
 ## Stack
 
-- React Native + Expo (TypeScript)
+- React Native + Expo (TypeScript) — app in the repo root
 - React Navigation (native stack + bottom tabs)
 - Context-based state management
+- `server/` — Node.js backend using Circle's Developer-Controlled Wallets SDK, talking to real Arc Testnet
 
-Circle Wallets, Circle Paymaster, and Arc transaction submission are currently mocked with realistic latency/failure simulation; the architecture is designed to swap in real Arc testnet calls without restructuring the app.
+Wallet creation, balance reads, and USDC transfers are real: the backend creates an actual developer-controlled wallet on Arc Testnet via Circle's SDK, and payments are genuine on-chain USDC transfers you can look up on [Arc Testnet's explorer](https://testnet.arcscan.app).
 
 ## Running locally
 
@@ -44,6 +45,8 @@ npm install
 npm start          # then press w for web, or scan the QR with Expo Go
 ```
 
+Requires the backend running too — see [`server/README.md`](server/README.md) for setup (needs a free Circle Developer sandbox account).
+
 ## Project docs
 
 - [`docs/spec.md`](docs/spec.md) — full product & UI spec
@@ -51,4 +54,4 @@ npm start          # then press w for web, or scan the QR with Expo Go
 
 ## Status
 
-MVP complete — every feature above is implemented and manually tested end-to-end.
+MVP complete — every feature above is implemented and manually tested end-to-end, backed by real Circle Wallets on Arc Testnet.
