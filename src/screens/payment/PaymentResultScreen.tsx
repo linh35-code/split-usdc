@@ -7,7 +7,7 @@ import { colors, spacing, typography } from '../../theme/theme';
 type Props = NativeStackScreenProps<MainStackParamList, 'PaymentResult'>;
 
 export default function PaymentResultScreen({ route, navigation }: Props) {
-  const { groupId, expenseId, amount, status, reason } = route.params;
+  const { groupId, expenseId, amount, status, reason, txId } = route.params;
 
   if (status === 'success') {
     return (
@@ -17,7 +17,7 @@ export default function PaymentResultScreen({ route, navigation }: Props) {
         </View>
         <Text style={styles.heading}>Thanh toán thành công!</Text>
         <Text style={styles.amount}>{amount} USDC</Text>
-        <Text style={styles.txHash}>Mã giao dịch: 0xMOCKTX{expenseId}</Text>
+        <Text style={styles.txHash}>Mã giao dịch: {txId ?? expenseId}</Text>
         <View style={styles.actions}>
           <Button title="Xong" onPress={() => navigation.pop()} />
         </View>

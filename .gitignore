@@ -36,6 +36,7 @@ yarn-error.*
 
 # Circle entity secret recovery file - never commit
 recovery_file*
+server/primary-wallet.json
 
 # typescript
 *.tsbuildinfo

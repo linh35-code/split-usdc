@@ -14,7 +14,14 @@ export type MainStackParamList = {
   SplitExpense: { groupId: string; title: string; totalAmount: number; participantIds: string[] };
   PaymentConfirm: { groupId: string; expenseId: string };
   PaymentProcessing: { groupId: string; expenseId: string; amount: number };
-  PaymentResult: { groupId: string; expenseId: string; amount: number; status: 'success' | 'failure'; reason?: string };
+  PaymentResult: {
+    groupId: string;
+    expenseId: string;
+    amount: number;
+    status: 'success' | 'failure';
+    reason?: string;
+    txId?: string;
+  };
   Account: undefined;
   ComingSoon: { title: string };
 };
