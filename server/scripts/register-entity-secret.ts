@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import fs from 'node:fs';
 import { registerEntitySecretCiphertext } from '@circle-fin/developer-controlled-wallets';
 
 async function main() {
@@ -9,8 +10,8 @@ async function main() {
   }
 
   const response = await registerEntitySecretCiphertext({ apiKey, entitySecret });
-  console.log('Save this recovery file somewhere safe (do not commit it):');
-  console.log(response.data?.recoveryFile);
+  fs.writeFileSync('recovery_file.dat', response.data?.recoveryFile ?? '');
+  console.log('Registered. Recovery file written to server/recovery_file.dat — back it up somewhere safe.');
 }
 
 main();
