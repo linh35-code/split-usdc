@@ -31,7 +31,11 @@ yarn-error.*
 *.pem
 
 # local env files
+.env
 .env*.local
+
+# Circle entity secret recovery file - never commit
+recovery_file*
 
 # typescript
 *.tsbuildinfo
