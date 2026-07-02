@@ -7,6 +7,7 @@ export type MainStackParamList = {
   GroupsList: undefined;
   GroupDetail: { groupId: string };
   GroupSettings: { groupId: string };
+  LeaveGroup: { groupId: string };
   CreateGroup: undefined;
   InviteMember: { groupId: string };
   AddExpense: { groupId: string };

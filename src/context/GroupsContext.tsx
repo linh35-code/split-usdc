@@ -18,6 +18,7 @@ type GroupsContextValue = {
   addMember: (groupId: string, member: Member) => void;
   addExpense: (groupId: string, expense: NewExpenseInput) => void;
   markExpensePaid: (groupId: string, expenseId: string, memberId: string) => void;
+  leaveGroup: (groupId: string) => void;
   getTotals: () => { totalYouOwe: number; totalYouAreOwed: number };
 };
 
@@ -79,6 +80,10 @@ export function GroupsProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const leaveGroup = useCallback((groupId: string) => {
+    setGroups((prev) => prev.filter((g) => g.id !== groupId));
+  }, []);
+
   const getTotals = useCallback(() => {
     let totalYouOwe = 0;
     let totalYouAreOwed = 0;
@@ -92,7 +97,7 @@ export function GroupsProvider({ children }: { children: ReactNode }) {
 
   return (
     <GroupsContext.Provider
-      value={{ groups, getGroupById, addGroup, addMember, addExpense, markExpensePaid, getTotals }}
+      value={{ groups, getGroupById, addGroup, addMember, addExpense, markExpensePaid, leaveGroup, getTotals }}
     >
       {children}
     </GroupsContext.Provider>

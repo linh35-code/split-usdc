@@ -32,6 +32,13 @@ export default function GroupSettingsScreen({ route, navigation }: Props) {
       >
         <Text>+ Mời thành viên</Text>
       </Pressable>
+
+      <Pressable
+        style={styles.leaveButton}
+        onPress={() => navigation.navigate('LeaveGroup', { groupId: group.id })}
+      >
+        <Text>Rời nhóm</Text>
+      </Pressable>
     </View>
   );
 }
@@ -47,6 +54,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inviteButton: {
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  leaveButton: {
     minHeight: 44,
     alignItems: 'center',
     justifyContent: 'center',

@@ -12,6 +12,7 @@ import GroupDetailScreen from './src/screens/home/GroupDetailScreen';
 import CreateGroupScreen from './src/screens/groups/CreateGroupScreen';
 import InviteMemberScreen from './src/screens/groups/InviteMemberScreen';
 import GroupSettingsScreen from './src/screens/groups/GroupSettingsScreen';
+import LeaveGroupScreen from './src/screens/groups/LeaveGroupScreen';
 import AddExpenseScreen from './src/screens/expenses/AddExpenseScreen';
 import SplitExpenseScreen from './src/screens/expenses/SplitExpenseScreen';
 import PaymentConfirmScreen from './src/screens/payment/PaymentConfirmScreen';
@@ -30,6 +31,7 @@ function GroupsTabStack() {
       <MainStack.Screen name="GroupsList" component={GroupsListScreen} />
       <MainStack.Screen name="GroupDetail" component={GroupDetailScreen} />
       <MainStack.Screen name="GroupSettings" component={GroupSettingsScreen} />
+      <MainStack.Screen name="LeaveGroup" component={LeaveGroupScreen} />
       <MainStack.Screen name="CreateGroup" component={CreateGroupScreen} />
       <MainStack.Screen name="InviteMember" component={InviteMemberScreen} />
       <MainStack.Screen name="AddExpense" component={AddExpenseScreen} />
