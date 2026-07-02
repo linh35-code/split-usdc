@@ -5,6 +5,7 @@ import type { MainStackParamList } from '../../navigation/types';
 import { useGroups } from '../../context/GroupsContext';
 import { useAuth } from '../../context/AuthContext';
 import { CURRENT_USER_ID } from '../../data/types';
+import { colors, spacing, typography } from '../../theme/theme';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'PaymentProcessing'>;
 
@@ -37,8 +38,8 @@ export default function PaymentProcessingScreen({ route, navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" />
-      <Text>Đang xử lý giao dịch...</Text>
+      <ActivityIndicator size="large" color={colors.primary} />
+      <Text style={styles.text}>Đang xử lý giao dịch...</Text>
     </View>
   );
 }
@@ -48,6 +49,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
+    gap: spacing.md,
+    backgroundColor: colors.background,
+  },
+  text: {
+    ...typography.body,
+    color: colors.textSecondary,
   },
 });

@@ -1,6 +1,8 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { MainStackParamList } from '../../navigation/types';
+import BackButton from '../../components/BackButton';
+import { colors, spacing, typography } from '../../theme/theme';
 
 type ComingSoonBodyProps = {
   title: string;
@@ -10,14 +12,10 @@ type ComingSoonBodyProps = {
 export function ComingSoonBody({ title, onBack }: ComingSoonBodyProps) {
   return (
     <View style={styles.container}>
-      {onBack && (
-        <Pressable onPress={onBack}>
-          <Text>← Back</Text>
-        </Pressable>
-      )}
+      {onBack && <BackButton label="Back" onPress={onBack} />}
       <View style={styles.body}>
-        <Text>{title}</Text>
-        <Text>(Sẽ được build ở một feature tiếp theo)</Text>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.subtitle}>Sẽ được build ở một feature tiếp theo</Text>
       </View>
     </View>
   );
@@ -32,12 +30,21 @@ export default function ComingSoonScreen({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: spacing.md,
+    backgroundColor: colors.background,
   },
   body: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 8,
+    gap: spacing.xs,
+  },
+  title: {
+    ...typography.title,
+    color: colors.textPrimary,
+  },
+  subtitle: {
+    ...typography.body,
+    color: colors.textSecondary,
   },
 });

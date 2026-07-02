@@ -1,9 +1,14 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Pressable, FlatList, StyleSheet } from 'react-native';
+import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { MainStackParamList } from '../../navigation/types';
 import { useGroups } from '../../context/GroupsContext';
 import { CURRENT_USER_ID } from '../../data/types';
+import BackButton from '../../components/BackButton';
+import TextField from '../../components/TextField';
+import Avatar from '../../components/Avatar';
+import Button from '../../components/Button';
+import { colors, radii, spacing, typography } from '../../theme/theme';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'AddExpense'>;
 
@@ -49,12 +54,9 @@ export default function AddExpenseScreen({ route, navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => navigation.goBack()}>
-        <Text>← Thêm khoản chi</Text>
-      </Pressable>
+      <BackButton label="Thêm khoản chi" onPress={() => navigation.goBack()} />
 
-      <TextInput
-        style={styles.input}
+      <TextField
         placeholder="Tên khoản chi"
         value={title}
         onChangeText={(text) => {
@@ -62,8 +64,7 @@ export default function AddExpenseScreen({ route, navigation }: Props) {
           if (error) setError(null);
         }}
       />
-      <TextInput
-        style={styles.input}
+      <TextField
         placeholder="Số tiền USDC"
         keyboardType="decimal-pad"
         value={amountText}
@@ -73,22 +74,28 @@ export default function AddExpenseScreen({ route, navigation }: Props) {
         }}
       />
 
-      <Text>Chọn người tham gia</Text>
+      <Text style={styles.sectionLabel}>Chọn người tham gia</Text>
       <FlatList
         data={group.members}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Pressable style={styles.memberRow} onPress={() => toggleMember(item.id)}>
-            <Text>[{selectedIds.includes(item.id) ? 'x' : ' '}] {item.name}</Text>
-          </Pressable>
-        )}
+        renderItem={({ item }) => {
+          const isMe = item.id === CURRENT_USER_ID;
+          const selected = selectedIds.includes(item.id);
+          return (
+            <Pressable style={styles.memberRow} onPress={() => toggleMember(item.id)} disabled={isMe}>
+              <View style={[styles.checkbox, selected && styles.checkboxChecked]}>
+                {selected && <Text style={styles.checkboxMark}>✓</Text>}
+              </View>
+              <Avatar name={item.name} size={32} />
+              <Text style={styles.memberName}>{item.name}</Text>
+            </Pressable>
+          );
+        }}
       />
 
-      {error && <Text>{error}</Text>}
+      {error && <Text style={styles.errorText}>{error}</Text>}
 
-      <Pressable style={styles.continueButton} onPress={handleContinue}>
-        <Text>Tiếp tục</Text>
-      </Pressable>
+      <Button title="Tiếp tục" onPress={handleContinue} />
     </View>
   );
 }
@@ -96,21 +103,44 @@ export default function AddExpenseScreen({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    gap: 16,
+    padding: spacing.md,
+    gap: spacing.md,
+    backgroundColor: colors.background,
   },
-  input: {
-    minHeight: 44,
-    borderWidth: 1,
-    paddingHorizontal: 12,
+  sectionLabel: {
+    ...typography.caption,
+    color: colors.textSecondary,
   },
   memberRow: {
     minHeight: 44,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
   },
-  continueButton: {
-    minHeight: 44,
+  checkbox: {
+    width: 22,
+    height: 22,
+    borderRadius: radii.sm,
+    borderWidth: 1,
+    borderColor: colors.border,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  checkboxChecked: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  checkboxMark: {
+    color: colors.textInverse,
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  memberName: {
+    ...typography.body,
+    color: colors.textPrimary,
+  },
+  errorText: {
+    ...typography.caption,
+    color: colors.error,
   },
 });

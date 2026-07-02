@@ -5,6 +5,9 @@ import type { MainStackParamList } from '../../navigation/types';
 import { useGroups } from '../../context/GroupsContext';
 import { CURRENT_USER_ID } from '../../data/types';
 import { computeEqualShares, round2 } from '../../data/splitMath';
+import BackButton from '../../components/BackButton';
+import Button from '../../components/Button';
+import { colors, radii, spacing, typography } from '../../theme/theme';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'SplitExpense'>;
 
@@ -71,18 +74,18 @@ export default function SplitExpenseScreen({ route, navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => navigation.goBack()}>
-        <Text>← Chia tiền</Text>
-      </Pressable>
+      <BackButton label="Chia tiền" onPress={() => navigation.goBack()} />
 
-      <Text>Tổng: {totalAmount} USDC</Text>
+      <Text style={styles.totalText}>Tổng: {totalAmount} USDC</Text>
 
       <View style={styles.toggleRow}>
-        <Pressable onPress={() => setMode('equal')}>
-          <Text>{mode === 'equal' ? '● ' : '○ '}Chia đều</Text>
+        <Pressable style={styles.toggleOption} onPress={() => setMode('equal')}>
+          <View style={[styles.radio, mode === 'equal' && styles.radioSelected]} />
+          <Text style={styles.toggleLabel}>Chia đều</Text>
         </Pressable>
-        <Pressable onPress={() => setMode('custom')}>
-          <Text>{mode === 'custom' ? '● ' : '○ '}Tuỳ chỉnh</Text>
+        <Pressable style={styles.toggleOption} onPress={() => setMode('custom')}>
+          <View style={[styles.radio, mode === 'custom' && styles.radioSelected]} />
+          <Text style={styles.toggleLabel}>Tuỳ chỉnh</Text>
         </Pressable>
       </View>
 
@@ -94,7 +97,7 @@ export default function SplitExpenseScreen({ route, navigation }: Props) {
           const value = mode === 'equal' ? equalShares[id] : isPayer ? customPayerShare : undefined;
           return (
             <View style={styles.memberRow}>
-              <Text>{nameOf(id)}</Text>
+              <Text style={styles.memberName}>{nameOf(id)}</Text>
               {mode === 'custom' && !isPayer ? (
                 <TextInput
                   style={styles.amountInput}
@@ -106,18 +109,16 @@ export default function SplitExpenseScreen({ route, navigation }: Props) {
                   }}
                 />
               ) : (
-                <Text>{value} USDC</Text>
+                <Text style={styles.amountText}>{value} USDC</Text>
               )}
             </View>
           );
         }}
       />
 
-      {error && <Text>{error}</Text>}
+      {error && <Text style={styles.errorText}>{error}</Text>}
 
-      <Pressable style={styles.confirmButton} onPress={handleConfirm}>
-        <Text>Xác nhận tạo khoản chi</Text>
-      </Pressable>
+      <Button title="Xác nhận tạo khoản chi" onPress={handleConfirm} />
     </View>
   );
 }
@@ -125,29 +126,67 @@ export default function SplitExpenseScreen({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    gap: 16,
+    padding: spacing.md,
+    gap: spacing.md,
+    backgroundColor: colors.background,
+  },
+  totalText: {
+    ...typography.title,
+    color: colors.textPrimary,
   },
   toggleRow: {
     flexDirection: 'row',
-    gap: 16,
+    gap: spacing.lg,
+  },
+  toggleOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+  },
+  radio: {
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    borderWidth: 2,
+    borderColor: colors.border,
+  },
+  radioSelected: {
+    borderColor: colors.primary,
+    backgroundColor: colors.primary,
+  },
+  toggleLabel: {
+    ...typography.body,
+    color: colors.textPrimary,
   },
   memberRow: {
     minHeight: 44,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  memberName: {
+    ...typography.body,
+    color: colors.textPrimary,
+  },
+  amountText: {
+    ...typography.body,
+    color: colors.textPrimary,
   },
   amountInput: {
-    minHeight: 44,
+    minHeight: 40,
     borderWidth: 1,
-    paddingHorizontal: 12,
+    borderColor: colors.border,
+    borderRadius: radii.sm,
+    paddingHorizontal: spacing.sm,
     minWidth: 100,
     textAlign: 'right',
+    ...typography.body,
+    color: colors.textPrimary,
   },
-  confirmButton: {
-    minHeight: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
+  errorText: {
+    ...typography.caption,
+    color: colors.error,
   },
 });

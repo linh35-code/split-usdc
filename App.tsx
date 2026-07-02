@@ -20,6 +20,7 @@ import PaymentProcessingScreen from './src/screens/payment/PaymentProcessingScre
 import PaymentResultScreen from './src/screens/payment/PaymentResultScreen';
 import AccountScreen from './src/screens/account/AccountScreen';
 import ComingSoonScreen, { ComingSoonBody } from './src/screens/common/ComingSoonScreen';
+import { colors } from './src/theme/theme';
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -59,7 +60,13 @@ function WalletComingSoon() {
 
 function MainTabs() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textSecondary,
+      }}
+    >
       <Tab.Screen name="Nhóm" component={GroupsTabStack} />
       <Tab.Screen name="Hoạt động" component={ActivityComingSoon} />
       <Tab.Screen name="Ví" component={WalletComingSoon} />

@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { MainStackParamList } from '../../navigation/types';
 import { useGroups } from '../../context/GroupsContext';
 import { useAuth } from '../../context/AuthContext';
 import { CURRENT_USER_ID } from '../../data/types';
+import BackButton from '../../components/BackButton';
+import Button from '../../components/Button';
+import { colors, radii, spacing, typography } from '../../theme/theme';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'PaymentConfirm'>;
 
@@ -34,23 +37,34 @@ export default function PaymentConfirmScreen({ route, navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => navigation.goBack()}>
-        <Text>← Xác nhận thanh toán</Text>
-      </Pressable>
+      <BackButton label="Xác nhận thanh toán" onPress={() => navigation.goBack()} />
 
-      <Text>Trả cho: {expense.title}</Text>
-      <Text>Số tiền: {amount} USDC</Text>
-      <Text>Người nhận: {payerName}</Text>
-      <Text>Phí gas: Được tài trợ</Text>
+      <View style={styles.amountCard}>
+        <Text style={styles.amountLabel}>Số tiền</Text>
+        <Text style={styles.amount}>{amount} USDC</Text>
+      </View>
 
-      {error && <Text>{error}</Text>}
+      <View style={styles.detailsCard}>
+        <View style={styles.detailRow}>
+          <Text style={styles.detailLabel}>Trả cho</Text>
+          <Text style={styles.detailValue}>{expense.title}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.detailLabel}>Người nhận</Text>
+          <Text style={styles.detailValue}>{payerName}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.detailLabel}>Phí gas</Text>
+          <Text style={[styles.detailValue, styles.sponsored]}>Được tài trợ</Text>
+        </View>
+      </View>
 
-      <Pressable style={styles.confirmButton} disabled={submitting} onPress={handleConfirm}>
-        <Text>Xác nhận trả</Text>
-      </Pressable>
-      <Pressable style={styles.cancelButton} disabled={submitting} onPress={() => navigation.goBack()}>
-        <Text>Huỷ</Text>
-      </Pressable>
+      {error && <Text style={styles.errorText}>{error}</Text>}
+
+      <View style={styles.actions}>
+        <Button title="Xác nhận trả" disabled={submitting} onPress={handleConfirm} />
+        <Button title="Huỷ" variant="text" disabled={submitting} onPress={() => navigation.goBack()} />
+      </View>
     </View>
   );
 }
@@ -58,17 +72,54 @@ export default function PaymentConfirmScreen({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    gap: 16,
+    padding: spacing.md,
+    gap: spacing.md,
+    backgroundColor: colors.background,
   },
-  confirmButton: {
-    minHeight: 44,
+  amountCard: {
+    backgroundColor: colors.surface,
+    borderRadius: radii.md,
+    padding: spacing.lg,
     alignItems: 'center',
-    justifyContent: 'center',
+    gap: spacing.xs,
   },
-  cancelButton: {
-    minHeight: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
+  amountLabel: {
+    ...typography.caption,
+    color: colors.textSecondary,
+  },
+  amount: {
+    ...typography.display,
+    color: colors.primary,
+  },
+  detailsCard: {
+    borderRadius: radii.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.md,
+    gap: spacing.sm,
+  },
+  detailRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  detailLabel: {
+    ...typography.body,
+    color: colors.textSecondary,
+  },
+  detailValue: {
+    ...typography.body,
+    color: colors.textPrimary,
+    fontWeight: '600',
+  },
+  sponsored: {
+    color: colors.success,
+  },
+  errorText: {
+    ...typography.caption,
+    color: colors.error,
+  },
+  actions: {
+    marginTop: 'auto',
+    gap: spacing.sm,
   },
 });
