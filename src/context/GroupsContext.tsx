@@ -17,6 +17,7 @@ type GroupsContextValue = {
   addGroup: (name: string) => Group;
   addMember: (groupId: string, member: Member) => void;
   addExpense: (groupId: string, expense: NewExpenseInput) => void;
+  markExpensePaid: (groupId: string, expenseId: string, memberId: string) => void;
   getTotals: () => { totalYouOwe: number; totalYouAreOwed: number };
 };
 
@@ -62,6 +63,22 @@ export function GroupsProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const markExpensePaid = useCallback((groupId: string, expenseId: string, memberId: string) => {
+    setGroups((prev) =>
+      prev.map((g) => {
+        if (g.id !== groupId) return g;
+        return {
+          ...g,
+          expenses: g.expenses.map((e) =>
+            e.id === expenseId && !e.paidMemberIds.includes(memberId)
+              ? { ...e, paidMemberIds: [...e.paidMemberIds, memberId] }
+              : e
+          ),
+        };
+      })
+    );
+  }, []);
+
   const getTotals = useCallback(() => {
     let totalYouOwe = 0;
     let totalYouAreOwed = 0;
@@ -74,7 +91,9 @@ export function GroupsProvider({ children }: { children: ReactNode }) {
   }, [groups]);
 
   return (
-    <GroupsContext.Provider value={{ groups, getGroupById, addGroup, addMember, addExpense, getTotals }}>
+    <GroupsContext.Provider
+      value={{ groups, getGroupById, addGroup, addMember, addExpense, markExpensePaid, getTotals }}
+    >
       {children}
     </GroupsContext.Provider>
   );

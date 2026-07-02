@@ -14,6 +14,9 @@ import InviteMemberScreen from './src/screens/groups/InviteMemberScreen';
 import GroupSettingsScreen from './src/screens/groups/GroupSettingsScreen';
 import AddExpenseScreen from './src/screens/expenses/AddExpenseScreen';
 import SplitExpenseScreen from './src/screens/expenses/SplitExpenseScreen';
+import PaymentConfirmScreen from './src/screens/payment/PaymentConfirmScreen';
+import PaymentProcessingScreen from './src/screens/payment/PaymentProcessingScreen';
+import PaymentResultScreen from './src/screens/payment/PaymentResultScreen';
 import AccountScreen from './src/screens/account/AccountScreen';
 import ComingSoonScreen, { ComingSoonBody } from './src/screens/common/ComingSoonScreen';
 
@@ -31,6 +34,13 @@ function GroupsTabStack() {
       <MainStack.Screen name="InviteMember" component={InviteMemberScreen} />
       <MainStack.Screen name="AddExpense" component={AddExpenseScreen} />
       <MainStack.Screen name="SplitExpense" component={SplitExpenseScreen} />
+      <MainStack.Screen name="PaymentConfirm" component={PaymentConfirmScreen} />
+      <MainStack.Screen
+        name="PaymentProcessing"
+        component={PaymentProcessingScreen}
+        options={{ gestureEnabled: false }}
+      />
+      <MainStack.Screen name="PaymentResult" component={PaymentResultScreen} />
       <MainStack.Screen name="Account" component={AccountScreen} />
       <MainStack.Screen name="ComingSoon" component={ComingSoonScreen} />
     </MainStack.Navigator>

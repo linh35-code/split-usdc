@@ -29,6 +29,15 @@ export const seedGroups: Group[] = [
         shares: { me: 11.25, an: 11.25, binh: 11.25, chi: 11.25 },
         paidMemberIds: ['me', 'binh', 'chi'],
       },
+      {
+        id: 'exp-4',
+        title: 'Vé tham quan',
+        totalAmount: 200,
+        paidByMemberId: 'chi',
+        participantIds: ['me', 'an', 'binh', 'chi'],
+        shares: { me: 50, an: 50, binh: 50, chi: 50 },
+        paidMemberIds: [],
+      },
     ],
   },
   {

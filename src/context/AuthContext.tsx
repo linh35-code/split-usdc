@@ -11,11 +11,15 @@ export const WALLET_OPTIONS: WalletOption[] = [
   { id: 'wallet-c', name: 'Ví C' },
 ];
 
+const INITIAL_BALANCE = 30;
+
 type AuthContextValue = {
   walletAddress: string | null;
   isConnecting: boolean;
+  balance: number;
   connectWallet: (walletId: string) => Promise<void>;
   disconnectWallet: () => void;
+  deductBalance: (amount: number) => void;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -23,6 +27,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [balance, setBalance] = useState(INITIAL_BALANCE);
 
   const connectWallet = useCallback(async (walletId: string) => {
     setIsConnecting(true);
@@ -35,8 +40,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setWalletAddress(null);
   }, []);
 
+  const deductBalance = useCallback((amount: number) => {
+    setBalance((prev) => prev - amount);
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ walletAddress, isConnecting, connectWallet, disconnectWallet }}>
+    <AuthContext.Provider
+      value={{ walletAddress, isConnecting, balance, connectWallet, disconnectWallet, deductBalance }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -3,6 +3,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { MainStackParamList } from '../../navigation/types';
 import { useGroups } from '../../context/GroupsContext';
 import { getGroupNetBalance, isExpenseCompleted } from '../../data/expenseMath';
+import { CURRENT_USER_ID } from '../../data/types';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'GroupDetail'>;
 
@@ -33,12 +34,25 @@ export default function GroupDetailScreen({ route, navigation }: Props) {
         style={styles.list}
         data={group.expenses}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.expenseRow}>
-            <Text>{item.title}</Text>
-            <Text>{isExpenseCompleted(item) ? 'Hoàn tất' : 'Đang chờ'}</Text>
-          </View>
-        )}
+        renderItem={({ item }) => {
+          const youOwe =
+            item.paidByMemberId !== CURRENT_USER_ID &&
+            item.participantIds.includes(CURRENT_USER_ID) &&
+            !item.paidMemberIds.includes(CURRENT_USER_ID);
+          return (
+            <View style={styles.expenseRow}>
+              <Text>{item.title}</Text>
+              <Text>{isExpenseCompleted(item) ? 'Hoàn tất' : 'Đang chờ'}</Text>
+              {youOwe && (
+                <Pressable
+                  onPress={() => navigation.navigate('PaymentConfirm', { groupId: group.id, expenseId: item.id })}
+                >
+                  <Text>Trả</Text>
+                </Pressable>
+              )}
+            </View>
+          );
+        }}
       />
 
       <Pressable
