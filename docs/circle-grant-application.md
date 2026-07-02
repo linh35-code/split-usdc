@@ -47,6 +47,27 @@ Note: the form says the video submission needs to validate the Circle products c
 2. **Mainnet-track hardening** — security review, rate limiting, real notification system.
 3. **Public beta** — onboard a real first group of users settling real shared expenses on Arc mainnet.
 
+## Project Traction and Roadmap
+
+**Current traction:** No live users yet — this is a working prototype, built and tested end-to-end, including real USDC transactions on Arc Testnet via Circle Developer-Controlled Wallets (verifiable on testnet.arcscan.app). No MAU/AUM/volume metrics yet since it hasn't launched publicly.
+
+**Dune Analytics / public dashboard link:** N/A
+
+**Are you funded?:** No
+
+**Technical roadmap with Circle integration timeline:** Weeks 1–4: migrate from a single shared demo wallet to per-user Circle Developer-Controlled Wallets with persistent accounts; add push notifications for expenses/payments. Weeks 4–8: integrate Circle Paymaster for true gas sponsorship as the product expands beyond Arc; support group invites via email with real user accounts. Weeks 8–12: security review and rate limiting on the payment flow; prepare for Arc mainnet deployment with real funds.
+
+**How will this grant support your roadmap?:** Grant funding would cover engineering time to build a production-grade multi-user backend (currently a single-wallet prototype), a security review before handling real user funds on mainnet, and infrastructure/Circle API costs during public beta.
+
+## Deck and Demo
+
+- **Video demo:** see `video-script.md` for a shot-by-shot recording script (record it yourself, then paste the link here)
+- **Investor deck:** a slide-style deck is available as a Claude artifact — see chat for the link, make sure sharing is turned on before submitting
+
+## Conflict of Interest
+
+**No** — confirm this is accurate for you before submitting.
+
 ## Reference: fuller narrative (if long-form fields appear)
 
 **Current status:** Working end-to-end prototype (React Native + Expo, TypeScript) with a Node backend on Circle's Developer-Controlled Wallets SDK — wallet connect onboarding, group/member management, equal/custom expense splits, full payment flow with real balance checks and real USDC transfers, transaction history from Circle's API, leave-group debt guard.
